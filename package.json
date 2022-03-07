@@ -1,0 +1,33 @@
+{
+	"name": "groupomaniav2",
+	"version": "1.0.0",
+	"description": "Une version un peu plus pro du projet groupomnia",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon src/index.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fred-fittywebdev/groupomaniaV2.git"
+	},
+	"keywords": [
+		"Api",
+		"NodeJs",
+		"Express",
+		"TypeScript",
+		"TypeOrm",
+		"React"
+	],
+	"author": "Fred",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/fred-fittywebdev/groupomaniaV2/issues"
+	},
+	"homepage": "https://github.com/fred-fittywebdev/groupomaniaV2#readme",
+	"devDependencies": {
+		"nodemon": "^2.0.15",
+		"ts-node": "^10.7.0",
+		"typescript": "^4.6.2"
+	}
+}
