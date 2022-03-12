@@ -11,7 +11,9 @@ import bcryptjs from 'bcryptjs'
 export const Users = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User)
 
-    const users = await repository.find()
+    const users = await repository.find({
+        relations: ['role'] // On fait une relation avec la colonne role de l'entity pour le récupérer
+    })
 
     // On boucle sur tous les users pour ne pas afficher le mot de passe
     res.send(users.map(u => {
@@ -31,7 +33,10 @@ export const CreateUser = async (req: Request, res: Response) => {
 
     const {password, ...user} = await repository.save({
         ...body,
-        password: hashedPassword
+        password: hashedPassword,
+        role: {
+            id: role_id // On crée un objet pour pouvoir assigner un role lors de la création du user
+        }
     })
 
     res.status(201).send(user)
@@ -42,7 +47,7 @@ export const GetUser = async (req: Request, res: Response) => {
 
     const repository = getManager().getRepository(User)
 
-    const {password, ...user} = await repository.findOne(req.params.id)
+    const {password, ...user} = await repository.findOne(req.params.id, {relations: ['role']})
 
     res.send(user)
 }
@@ -52,9 +57,14 @@ export const UpdateUser = async (req: Request, res: Response) => {
     const {role_id, ...body} = req.body
     const repository = getManager().getRepository(User)
 
-    await repository.update(req.params.id, body)
+    await repository.update(req.params.id, {
+        ...body,
+        role: {
+            id: role_id
+        }
+    })
 
-    const {password, ...user} = await repository.findOne(req.params.id)
+    const {password, ...user} = await repository.findOne(req.params.id, {relations: ['role']})
 
     res.status(202).send(user)
 }
