@@ -1,8 +1,10 @@
+import { AuthMiddleware } from './../middleware/auth.middleware';
 import { Request, Response } from "express";
 import { getManager } from "typeorm";
 import { User } from "../entity/user.entity";
 import { RegistrationValidation } from "../validation/registration.validation";
 import bcryptjs from 'bcryptjs'
+import { sign, verify } from "jsonwebtoken";
 
 // Validate infos on registration with express-validate
 export const Register = async (req: Request, res: Response) => {
@@ -25,6 +27,7 @@ export const Register = async (req: Request, res: Response) => {
         first_name: body.first_name,
         last_name: body.last_name,
         email: body.email,
+        profil_pictire: body.profil_picture,
         password: await bcryptjs.hash(body.password, 12),
         is_valid: body.is_valid
 
@@ -58,7 +61,67 @@ export const Login = async (req: Request, res: Response) => {
         })
     }
 
+    const token = sign({
+        id: user.id,
+        valid: user.is_valid
+        }, process.env.SECRET_TOKEN)
+
+    res.cookie('jwt', token, {
+        httpOnly: true, // Permet de rendre le token innaccessible au font endd
+        maxAge: 24 * 60 *60 * 1000 // 1 jour
+    })
+
+    // const {password, ...data} = user
+
+    res.send({
+        message: 'success'
+    })
+}
+
+export const AuthenticatedUser = async (req: Request, res: Response) => {
+    // Nous récupérons le user dans la requête grâce au AuthMiddleware
+    const {password, ...user} = req["user"]
+    res.send(user)
+}
+
+export const Logout = async (req: Request, res: Response) => {
+    res.cookie('jwt', '',  {maxAge: 0}) // Pour enlever le cookie nous mettons un contenu vide dans celui que nous avons déjà créer lors de l'autentification
+
+    res.send({
+        message: "Déconnexion résussie."
+    })
+}
+
+
+export const UpdateInfo = async (req: Request, res: Response) => {
+    const user = req["user"]
+
+    const repository = getManager().getRepository(User)
+
+    await repository.update(user.id, req.body)
+
+    const {password, ...data} = await repository.findOne(user.id)
+
+    res.send(data)
+}
+
+export const UpdatePassword = async (req: Request, res: Response) => {
+    const user = req["user"]
+
+    if (req.body.password != req.body.password_confirm) {
+        return res.status(400).send({
+            message: "Les mots de passe ne correspondent pas."
+        })
+    }
+
+    const repository = getManager().getRepository(User)
+
+    await repository.update(user.id, {
+        password: await bcryptjs.hash(req.body.password, 12)
+    })
+
     const {password, ...data} = user
 
     res.send(data)
+
 }

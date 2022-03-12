@@ -14,6 +14,12 @@ export class User {
     last_name: string
 
     @Column({
+        nullable: true,
+        default: "username"
+    })
+    username: string
+
+    @Column({
         unique: true
     })
     email: string
@@ -25,4 +31,11 @@ export class User {
         default: true
     })
     is_valid: boolean
+
+    @Column({
+        nullable: true,
+        default: "img/profil/moi.png"
+    })
+    profile_picture: string
+
 }
