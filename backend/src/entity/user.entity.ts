@@ -34,6 +34,11 @@ export class User {
     is_valid: boolean
 
     @Column({
+        default: 0
+    })
+    warnings: number
+
+    @Column({
         nullable: true,
         default: "img/profil/moi.png"
     })
