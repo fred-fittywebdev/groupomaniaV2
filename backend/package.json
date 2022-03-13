@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "nodemon src/index.ts",
-		"roles:seed": "ts-node src/seeder/role.seeder.ts"
+		"roles:seed": "ts-node src/seeder/role.seeder.ts",
+		"post:seed": "ts-node src/seeder/post.seeder.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -27,6 +28,7 @@
 	},
 	"homepage": "https://github.com/fred-fittywebdev/groupomaniaV2#readme",
 	"devDependencies": {
+		"@faker-js/faker": "^6.0.0-beta.0",
 		"@types/bcryptjs": "^2.4.2",
 		"@types/cookie-parser": "^1.4.2",
 		"@types/cors": "^2.8.12",

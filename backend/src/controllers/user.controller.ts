@@ -9,18 +9,36 @@ import bcryptjs from 'bcryptjs'
 
 // Récupérer tous les utilisateurs de l'application
 export const Users = async (req: Request, res: Response) => {
+    // pagination
+    const take = 10
+    const page = parseInt(req.query.page as string || '1')
+
     const repository = getManager().getRepository(User)
 
-    const users = await repository.find({
-        relations: ['role'] // On fait une relation avec la colonne role de l'entity pour le récupérer
+    const [data, total] = await repository.findAndCount({
+        take: take,
+        skip: (page - 1) * take, // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième,
+        relations: ['role']
     })
 
-    // On boucle sur tous les users pour ne pas afficher le mot de passe
-    res.send(users.map(u => {
-        const {password, ...data} = u
+    // const users = await repository.find({
+    //     relations: ['role'] // On fait une relation avec la colonne role de l'entity pour le récupérer
+    // })
 
-        return data
-    }))
+    // On boucle sur tous les users pour ne pas afficher le mot de passe
+
+    res.send({
+        data: data.map(u => {
+            const {password, ...data} = u
+
+            return data
+        }),
+        meta: {
+            total,
+            page,
+            last_page: Math.ceil(total / take)
+        }
+    })
 }
 
 // Création d'un utilisateur

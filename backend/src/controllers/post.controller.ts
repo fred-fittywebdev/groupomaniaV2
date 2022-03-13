@@ -5,11 +5,25 @@ import { send } from 'process';
 
 // On récupère tous les posts
 export const Posts = async (req: Request, res: Response) => {
+    // mise en place de la pagination
+    const take = 10
+    const page = parseInt(req.query.page as string || '1')
+
     const repository = getManager().getRepository(Post)
 
-    const posts = await repository.find()
+    const [data, total] = await repository.findAndCount({
+        take: take,
+        skip: (page - 1) * take // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
+    })
 
-    res.send(posts)
+    res.send({
+        data: data,
+        meta: {
+            total,
+            page,
+            last_page: Math.ceil(total / take)
+        }
+    })
 }
 
 // On crée un Post
