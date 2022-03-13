@@ -1,13 +1,15 @@
+import { Upload } from './../controllers/image.controller';
 import { CreateRole, DeleteRole, GetRole, UpdateRole } from './../controllers/role.controller';
 
 import { Users, CreateUser, GetUser, UpdateUser, DeleteUser } from './../controllers/user.controller';
 import { AuthMiddleware } from './../middleware/auth.middleware';
 import { Register, Login, AuthenticatedUser, Logout, UpdateInfo, UpdatePassword } from './../controllers/auth.controller';
-import { Router } from 'express'
+import { Request, Router } from 'express'
 import { Forgot, ResetPassword } from '../controllers/forgot.controller';
 import { Permissions } from '../controllers/permission.controller';
 import { Roles } from '../controllers/role.controller';
 import { CreatePost, DeletePost, GetPost, Posts, UpdatePost } from '../controllers/post.controller';
+
 
 export const routes = (router: Router) => {
     // Authenticated user
@@ -41,4 +43,7 @@ export const routes = (router: Router) => {
     router.get('/api/post/:id', AuthMiddleware, GetPost)
     router.put('/api/post/:id', AuthMiddleware, UpdatePost)
     router.delete('/api/post/:id', AuthMiddleware, DeletePost)
+
+    //Images Upload
+    router.post('/api/upload',AuthMiddleware, Upload)
 }
