@@ -2,6 +2,8 @@ import { Post } from './../entity/post.entity';
 import { getManager } from 'typeorm';
 import { Request, Response } from 'express';
 import { send } from 'process';
+import { Users } from './user.controller';
+import { User } from '../entity/user.entity';
 
 // On récupère tous les posts
 export const Posts = async (req: Request, res: Response) => {
@@ -33,6 +35,33 @@ export const CreatePost = async (req: Request, res: Response) => {
     const post = await repository.save(req.body)
 
     res.status(201).send(post)
+}
+
+export const CreatePostUser = async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    const { title, content } =req.body
+
+    const user = await User.findOne(parseInt(id))
+
+    if (!user) {
+        return res.json({
+            message: 'Utilisateur non trouvé'
+        })
+    }
+
+    const post = Post.create({
+        title,
+        content,
+        user
+    })
+
+    await post.save()
+    await user.save()
+
+    return res.json({
+        msg: 'Post ajouté avec success'
+    })
 }
 
 // On récupère un post grâce a son ID

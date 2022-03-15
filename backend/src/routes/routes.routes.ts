@@ -8,7 +8,7 @@ import { Request, Router } from 'express'
 import { Forgot, ResetPassword } from '../controllers/forgot.controller';
 import { Permissions } from '../controllers/permission.controller';
 import { Roles } from '../controllers/role.controller';
-import { CreatePost, DeletePost, GetPost, Posts, UpdatePost } from '../controllers/post.controller';
+import { CreatePost, CreatePostUser, DeletePost, GetPost, Posts, UpdatePost } from '../controllers/post.controller';
 
 
 export const routes = (router: Router) => {
@@ -39,6 +39,7 @@ export const routes = (router: Router) => {
 
     // Post routes
     router.get('/api/posts', AuthMiddleware, Posts)
+    router.post('/api/users/:id/post', CreatePostUser)
     router.post('/api/posts', AuthMiddleware, CreatePost)
     router.get('/api/post/:id', AuthMiddleware, GetPost)
     router.put('/api/post/:id', AuthMiddleware, UpdatePost)
