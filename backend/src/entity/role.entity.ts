@@ -1,9 +1,9 @@
 import { Permission } from './permission.entity';
-import { Column, Entity, PrimaryGeneratedColumn, JoinTable, ManyToMany, } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, JoinTable, ManyToMany, BaseEntity, } from "typeorm";
 
 
 @Entity()
-export class Role {
+export class Role extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 

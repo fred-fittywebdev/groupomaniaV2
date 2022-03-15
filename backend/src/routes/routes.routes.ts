@@ -1,6 +1,6 @@
 import { Upload } from './../controllers/image.controller';
 import { CreateRole, DeleteRole, GetRole, UpdateRole } from './../controllers/role.controller';
-
+import express from 'express'
 import { Users, CreateUser, GetUser, UpdateUser, DeleteUser } from './../controllers/user.controller';
 import { AuthMiddleware } from './../middleware/auth.middleware';
 import { Register, Login, AuthenticatedUser, Logout, UpdateInfo, UpdatePassword } from './../controllers/auth.controller';
@@ -46,4 +46,6 @@ export const routes = (router: Router) => {
 
     //Images Upload
     router.post('/api/upload',AuthMiddleware, Upload)
+    // Route statique pour les Images
+    router.use('/api/uploads', express.static('./uploads'))
 }

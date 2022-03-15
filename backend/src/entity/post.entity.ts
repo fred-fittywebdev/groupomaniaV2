@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "./user.entity";
 
 
 @Entity()
-export class Post {
+export class Post extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -33,4 +34,8 @@ export class Post {
 
     @UpdateDateColumn()
     updated_at: Date
+
+    @ManyToOne(() => User, user => user.posts, {onDelete: 'CASCADE'})
+    @JoinColumn({name: 'user_id'})
+    user: User
 }

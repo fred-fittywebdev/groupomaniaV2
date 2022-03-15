@@ -1,9 +1,11 @@
 import { Role } from './role.entity';
 import { type } from "os";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Post } from './post.entity';
+import { BusinessPosition } from './business_position';
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number
@@ -47,5 +49,12 @@ export class User {
     @ManyToOne(() => Role) // Ici un utilsateur ne peut avoir qu'un seul role, alors qu'un rôle peut être assigné a plusieurs utilisateurs
     @JoinColumn({name: 'role_id'}) // On spécifie comment on veut appeler la colonne
     role: Role
+
+    @ManyToOne(() => BusinessPosition, position => position.positions)
+    @JoinColumn({name: 'position_id'})
+    position: BusinessPosition
+
+    @OneToMany(() => Post, post => post.user)
+    posts: Post[]
 
 }
