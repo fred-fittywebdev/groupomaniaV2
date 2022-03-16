@@ -1,3 +1,4 @@
+import { DeleteComment, GetComment, getComments, UpdateComment } from './../controllers/comment.controller';
 import { Upload } from './../controllers/image.controller';
 import { CreateRole, DeleteRole, GetRole, UpdateRole } from './../controllers/role.controller';
 import express from 'express'
@@ -9,6 +10,8 @@ import { Forgot, ResetPassword } from '../controllers/forgot.controller';
 import { Permissions } from '../controllers/permission.controller';
 import { Roles } from '../controllers/role.controller';
 import { CreatePost, CreatePostUser, DeletePost, GetPost, Posts, UpdatePost } from '../controllers/post.controller';
+import { CreateCommentPost } from '../controllers/comment.controller';
+
 
 
 export const routes = (router: Router) => {
@@ -39,11 +42,18 @@ export const routes = (router: Router) => {
 
     // Post routes
     router.get('/api/posts', AuthMiddleware, Posts)
-    router.post('/api/users/:id/post', CreatePostUser)
+    router.post('/api/users/:id/post',AuthMiddleware, CreatePostUser)
     router.post('/api/posts', AuthMiddleware, CreatePost)
     router.get('/api/post/:id', AuthMiddleware, GetPost)
     router.put('/api/post/:id', AuthMiddleware, UpdatePost)
     router.delete('/api/post/:id', AuthMiddleware, DeletePost)
+
+    // Comment routes
+    router.get('/api/comments', AuthMiddleware, getComments)
+    router.post('/api/posts/:id/comment',AuthMiddleware, CreateCommentPost)
+    router.get('/api/comments/:id', AuthMiddleware, GetComment)
+    router.put('/api/comments/:id', AuthMiddleware, UpdateComment)
+    router.delete('/api/comments/:id', AuthMiddleware, DeleteComment)
 
     //Images Upload
     router.post('/api/upload',AuthMiddleware, Upload)
