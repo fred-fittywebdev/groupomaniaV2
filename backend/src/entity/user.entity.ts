@@ -2,7 +2,7 @@ import { Role } from './role.entity';
 import { type } from "os";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Post } from './post.entity';
-import { BusinessPosition } from './business_position';
+import { Comments } from './comments.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -50,11 +50,11 @@ export class User extends BaseEntity {
     @JoinColumn({name: 'role_id'}) // On spécifie comment on veut appeler la colonne
     role: Role
 
-    @ManyToOne(() => BusinessPosition, position => position.positions)
-    @JoinColumn({name: 'position_id'})
-    position: BusinessPosition
 
     @OneToMany(() => Post, post => post.user)
     posts: Post[]
+
+    @OneToMany(() => Comments, comment => comment.user )
+    comments: Comments[]
 
 }

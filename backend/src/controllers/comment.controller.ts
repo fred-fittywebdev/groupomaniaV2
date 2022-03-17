@@ -5,6 +5,7 @@ import { PassThrough } from 'nodemailer/lib/xoauth2';
 import { getManager } from 'typeorm';
 import { Comments } from '../entity/comments.entity';
 import { Post } from '../entity/post.entity';
+import { User } from '../entity/user.entity';
 
 // On récupère tous les post
 export const getComments = async (req: Request, res: Response) => {
@@ -16,7 +17,8 @@ export const getComments = async (req: Request, res: Response) => {
 
         const [data, total] = await repository.findAndCount({
             take: take,
-            skip: (page - 1) * take // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
+            skip: (page - 1) * take, // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
+            relations: ['post']
         })
     
         res.send({
@@ -56,11 +58,39 @@ export const  CreateCommentPost = async (req: Request, res: Response) => {
     })
 }
 
+// On associe un commentaire a un utilisateur
+export const CreateUSerComment = async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    const { content } = req.body
+
+    const user = await User.findOne(parseInt(id))
+
+    if (!user) {
+        return res.json({
+            message: 'Cet utilisateur n\'existe pas'
+        })
+    }
+
+    const comment = Comments.create({
+        content,
+        user
+    })
+
+    await comment.save()
+    await user.save()
+
+    return res.json({
+        message: 'Commentaire ajouté avec success.'
+    })
+
+}
+
 // On récupère un commentaire grâce a son import { second } from 'first'
 export const GetComment = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(Comments)
 
-    res.send(await repository.findOne(req.params.id))
+    res.send(await repository.findOne(req.params.id, {relations: ['post']}))
 }
 
 // ON modifie un Commentaire

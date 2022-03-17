@@ -1,4 +1,4 @@
-import { DeleteComment, GetComment, getComments, UpdateComment } from './../controllers/comment.controller';
+import { CreateUSerComment, DeleteComment, GetComment, getComments, UpdateComment } from './../controllers/comment.controller';
 import { Upload } from './../controllers/image.controller';
 import { CreateRole, DeleteRole, GetRole, UpdateRole } from './../controllers/role.controller';
 import express from 'express'
@@ -43,6 +43,7 @@ export const routes = (router: Router) => {
     // Post routes
     router.get('/api/posts', AuthMiddleware, Posts)
     router.post('/api/users/:id/post',AuthMiddleware, CreatePostUser)
+    router.post('/api/users/:id/comment', AuthMiddleware, CreateUSerComment)
     router.post('/api/posts', AuthMiddleware, CreatePost)
     router.get('/api/post/:id', AuthMiddleware, GetPost)
     router.put('/api/post/:id', AuthMiddleware, UpdatePost)
