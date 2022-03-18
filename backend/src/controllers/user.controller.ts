@@ -18,7 +18,7 @@ export const Users = async (req: Request, res: Response) => {
     const [data, total] = await repository.findAndCount({
         take: take,
         skip: (page - 1) * take, // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième,
-        relations: ['role']
+        relations: ['role', 'posts', 'comments']
     })
 
     // const users = await repository.find({
@@ -65,7 +65,7 @@ export const GetUser = async (req: Request, res: Response) => {
 
     const repository = getManager().getRepository(User)
 
-    const {password, ...user} = await repository.findOne(req.params.id, {relations: ['role']})
+    const {password, ...user} = await repository.findOne(req.params.id, {relations: ['role', 'posts', 'comments']})
 
     res.send(user)
 }

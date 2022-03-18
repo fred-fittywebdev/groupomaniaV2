@@ -15,7 +15,8 @@ export const Posts = async (req: Request, res: Response) => {
 
     const [data, total] = await repository.findAndCount({
         take: take,
-        skip: (page - 1) * take, // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
+        skip: (page - 1) * take,
+        relations: ['user', 'comments'] // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
     })
 
     res.send({
@@ -42,7 +43,7 @@ export const CreatePostUser = async (req: Request, res: Response) => {
 
     const { title, content } =req.body
 
-    const user = await User.findOne(parseInt(id))
+    const user = await User.findOne(parseInt(id), {relations: ['user', 'comments']})
 
     if (!user) {
         return res.json({

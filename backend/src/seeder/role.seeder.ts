@@ -7,7 +7,7 @@ createConnection().then(async connection => {
     // On crée ici les droits et on les push dans le tableau donc dans la table permsissions
     const permissionRepository = getManager().getRepository(Permission)
 
-    const perms = ['view_users', 'edit_users', 'view_roles', 'edit_roles', 'view_posts', 'edit_posts', 'view_comments', 'edit_comments']
+    const perms = ['view_users', 'edit_users', 'view_roles', 'edit_roles', 'view_posts', 'edit_posts', 'view_comments', 'edit_comments','view-tickets', 'edit-tickets']
 
     let permissions = []
 
@@ -18,6 +18,9 @@ createConnection().then(async connection => {
     }
     // Ici on crée les différents rôles pour la table rôles
     const roleRepository = getManager().getRepository(Role)
+
+    delete permissions[8]  // Permet de supprimer du tableau le droit d'éditer les rôles
+    delete permissions[9]
 
     await roleRepository.save({
         name: 'Admin',
