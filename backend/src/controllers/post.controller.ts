@@ -1,5 +1,5 @@
 import { Post } from './../entity/post.entity';
-import { getManager } from 'typeorm';
+import { createQueryBuilder, getManager, Repository } from 'typeorm';
 import { Request, Response } from 'express';
 import { send } from 'process';
 import { Users } from './user.controller';
@@ -16,7 +16,7 @@ export const Posts = async (req: Request, res: Response) => {
     const [data, total] = await repository.findAndCount({
         take: take,
         skip: (page - 1) * take,
-        relations: ['user', 'comments'] // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
+        relations: ['comments'] // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième
     })
 
     res.send({
@@ -79,6 +79,40 @@ export const UpdatePost = async (req: Request, res: Response) => {
     await repository.update(req.params.id, req.body)
 
     res.status(202).send(await repository.findOne(req.params.id))
+}
+
+// On like un post
+export const LikePost = async (req: Request, res: Response) => {
+    const repository = getManager().getRepository(Post)
+
+    const post = await repository.findOne(req.params.id)
+    
+    await repository.update(req.params.id, { like: post.like + 1 })
+
+    return res.json({
+        message: 'Vous avez aimé ce post.'
+    })
+}
+
+// On like un post
+export const DislikePost = async (req: Request, res: Response) => {
+    const repository = getManager().getRepository(Post)
+
+    const post = await repository.findOne(req.params.id)
+    console.log(post.like)
+
+    if (post.like > 0) {
+        await repository.update(req.params.id, { like: post.like - 1 })
+    } else {
+        post.like = 0
+        repository.save(post)
+    }
+    
+    
+
+    return res.json({
+        message: 'Vous n\'aimez pas ce post.'
+    })
 }
 
 // On supprime un Post

@@ -17,7 +17,7 @@ export const AuthMiddleware = async (req: Request, res: Response, next: Function
 
         const repository = getManager().getRepository(User)
         // on passe le user directement dans la requête
-        req["user"] = await repository.findOne(payload.id)
+        req["user"] = await repository.findOne(payload.id, {relations: ['role', 'role.permissions']}) // Permet de faire le lien avec le permission middleware
 
         next()
 

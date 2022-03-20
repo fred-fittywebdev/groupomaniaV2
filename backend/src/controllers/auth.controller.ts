@@ -41,7 +41,7 @@ export const Login = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User)
 
     // On trouve le premier user dont l'email correspond au contenu de la requête
-    const user = await repository.findOne({email: req.body.email})
+    const user = await repository.findOne({email: req.body.email}, {relations: ['role']})
 
     if (!user) {
         return res.status(404).send({
@@ -76,6 +76,7 @@ export const Login = async (req: Request, res: Response) => {
     res.send({
         message: 'success'
     })
+    console.log(user.role.name)
 }
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {

@@ -3,6 +3,8 @@ import { getManager } from 'typeorm';
 import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import bcryptjs from 'bcryptjs'
+import { Parser } from 'json2csv';
+import { Post } from '../entity/post.entity';
 
 // Ici on est sur le CRUD des utilisateur en général, seul un utilisateur authentifié peut le faire
 
@@ -18,7 +20,7 @@ export const Users = async (req: Request, res: Response) => {
     const [data, total] = await repository.findAndCount({
         take: take,
         skip: (page - 1) * take, // On précise le début, si la page est sur un on part de zéro, si elle est sur 2 on montrera les produits a partir du quinzième,
-        relations: ['role', 'posts', 'comments']
+        relations: ['role', 'role.permissions', 'posts', 'comments']
     })
 
     // const users = await repository.find({
@@ -39,6 +41,49 @@ export const Users = async (req: Request, res: Response) => {
             last_page: Math.ceil(total / take)
         }
     })
+}
+
+//Export des données des utilisateurs du site
+export const ExportUser = async (req: Request, res: Response) => {
+    const parser = new Parser({
+        fields: ['ID', 'Prénom', 'Nom', 'Actif', 'Avertissements', 'Post', 'Contenu']
+    })
+
+    const repository = getManager().getRepository(User)
+    const user = await repository.find({relations: ['posts']})
+
+    const json = []
+
+    user.forEach((user: User) => {
+        json.push({
+            ID: user.id,
+            Prénom: user.first_name,
+            Nom: user.last_name,
+            Actif: user.is_valid,
+            Avertissements: user.warnings,
+            Post: '',
+            Contenu: ''
+        })
+
+        user.posts.forEach((item: Post) => {
+            json.push({
+                ID: '',
+                Prénom: '',
+                Nom: '',
+                Actif: '',
+                Avertissements: '',
+                Post: item.title,
+                Contenu: item.content
+            })
+        })
+        
+    })
+
+    const csv = parser.parse(json)
+
+    res.header('Content-Type', 'text/csv') // Permet de retourner et de transformer la réponse en csv sous forme de fichier
+    res.attachment('users.csv')
+    res.send(csv)
 }
 
 // Création d'un utilisateur
