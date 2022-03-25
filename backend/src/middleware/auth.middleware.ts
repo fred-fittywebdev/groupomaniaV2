@@ -5,9 +5,9 @@ import { getManager } from "typeorm";
 
 export const AuthMiddleware = async (req: Request, res: Response, next: Function) => {
     try{
-        const jwt = req.cookies['jwt']
+        const jwt = req.header('Authorization').split(" ")[1]
 
-        const payload: any = verify(jwt, process.env.SECRET_TOKEN || '') // On vérifie le cookie récupéré pour l'utiliser ensuite si il n'ya rien on met une
+        const payload: any = verify(jwt, process.env.SECRET_TOKEN) // On vérifie le cookie récupéré pour l'utiliser ensuite si il n'ya rien on met une
 
         if (!payload) {
             return res.status(401).send({

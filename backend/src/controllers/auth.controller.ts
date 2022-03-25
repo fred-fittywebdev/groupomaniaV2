@@ -64,16 +64,17 @@ export const Login = async (req: Request, res: Response) => {
     const token = sign({
         id: user.id,
         valid: user.is_valid
-        }, process.env.SECRET_TOKEN)
+        }, process.env.SECRET_TOKEN, {expiresIn: '24h'})
 
-    res.cookie('jwt', token, {
-        httpOnly: true, // Permet de rendre le token innaccessible au font endd
-        maxAge: 24 * 60 *60 * 1000 // 1 jour
-    })
+    // res.cookie('jwt', token, {
+    //     httpOnly: true, // Permet de rendre le token innaccessible au font endd
+    //     maxAge: 24 * 60 *60 * 1000 // 1 jour
+    // })
 
     // const {password, ...data} = user
 
     res.send({
+        token,
         message: 'success'
     })
     console.log(user.role.name)
