@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+
+// styles
+import './App.css'
+
+//import Home from './pages/home/Home';
+import Register from './pages/register/Register'
+import Login from './pages/login/Login'
+import Navbar from './components/Navbar'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        {/* <Sidebar /> */}
+        {/*<Navbar />*/}
+        <div className='container'>
+          <Navbar />
+          <Switch>
+            {/* <Route exact path="/" render={() => <Dashboard />}> */}
+
+            {/* </Route>
+
+            {/* <Route exact path="/create" render={() => <Create />}> */}
+
+            {/* </Route> */}
+
+            {/* <Route exact path="/post:id" render={() => <Post />}> */}
+
+            {/* </Route> */}
+            <Route exact path="/login" render={() => <Login />}>
+
+            </Route>
+            <Route path="/register" render={() => <Register />}>
+
+            </Route>
+          </Switch>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
