@@ -4,8 +4,8 @@
 :root {
 	--heading-color: #444;
 	--text-color: #999;
-	--primary-color: #ffd7d7;
-	--highlight-color: #d7d7ff;
+	--primary-color: #fd2d01;
+	--highlight-color: #01fd2d;
 	--bg-color: #fff;
 }
 
@@ -28,6 +28,11 @@ h4 {
 }
 ul {
 	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+	color: var(--primary-color);
 }
 
 /* layout */

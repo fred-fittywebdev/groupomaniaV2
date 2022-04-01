@@ -1,45 +1,17 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-
 // styles
-import './App.css'
-
-//import Home from './pages/home/Home';
-import Register from './pages/register/Register'
-import Login from './pages/login/Login'
-import Navbar from './components/Navbar'
-
+import './App.css';
+// import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
+// import Register from './pages/Register/Register';
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        {/* <Sidebar /> */}
-        {/*<Navbar />*/}
-        <div className='container'>
-          <Navbar />
-          <Switch>
-            {/* <Route exact path="/" render={() => <Dashboard />}> */}
-
-            {/* </Route>
-
-            {/* <Route exact path="/create" render={() => <Create />}> */}
-
-            {/* </Route> */}
-
-            {/* <Route exact path="/post:id" render={() => <Post />}> */}
-
-            {/* </Route> */}
-            <Route exact path="/login" render={() => <Login />}>
-
-            </Route>
-            <Route path="/register" render={() => <Register />}>
-
-            </Route>
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </div>
-  );
+	return (
+		<div className="App">
+			{/* <Home /> */}
+			<Login />
+			{/* <Register /> */}
+		</div>
+	);
 }
 
 export default App;
