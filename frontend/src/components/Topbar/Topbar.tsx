@@ -1,6 +1,7 @@
 import React from 'react';
 import './Topbar.css';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
+import { NavLink } from 'react-router-dom';
 
 const Topbar = () => {
 	return (
@@ -23,7 +24,16 @@ const Topbar = () => {
 				</div>
 				<div className="right">
 					<div className="topbar_links">
-						<span className="topbar_link">Admin</span>
+						<span className="topbar_link">Bienvenue: Mario</span>
+						{/* <NavLink className="navlinks-topbar" to="/">
+							<span className="topbar_link">Admin</span>
+						</NavLink>
+						<NavLink className="navlinks-topbar" to="/login">
+							<span className="topbar_link">Connexion</span>
+						</NavLink>
+						<NavLink className="navlinks-topbar" to="/register">
+							<span className="topbar_link">Inscriptions</span>
+						</NavLink> */}
 					</div>
 					<div className="topbar_icons">
 						<div className="topbar_icon-item">

@@ -58,9 +58,18 @@
 }
 
 .topbar_links {
+	display: flex;
+}
+
+.navlinks-topbar {
 	font-size: 14px;
 	margin-right: 10px;
 	cursor: pointer;
+	color: #fff;
+}
+
+.navlinks-topbar.active {
+	text-decoration: overline;
 }
 
 .topbar_icons {
