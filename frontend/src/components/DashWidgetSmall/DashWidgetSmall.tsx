@@ -9,7 +9,7 @@ function DashWidgetSmall() {
 			<ul className="widget_small-list">
 				<li className="widget_small-item">
 					<img
-						src="/assets/profile2.png"
+						src="/assets/peach.png"
 						alt=""
 						className="widget_small-profile"
 					/>
@@ -26,7 +26,7 @@ function DashWidgetSmall() {
 				</li>
 				<li className="widget_small-item">
 					<img
-						src="/assets/profile2.png"
+						src="/assets/mario.png"
 						alt=""
 						className="widget_small-profile"
 					/>
@@ -41,7 +41,7 @@ function DashWidgetSmall() {
 				</li>
 				<li className="widget_small-item">
 					<img
-						src="/assets/profile2.png"
+						src="/assets/mario.png"
 						alt=""
 						className="widget_small-profile"
 					/>
@@ -56,7 +56,7 @@ function DashWidgetSmall() {
 				</li>
 				<li className="widget_small-item">
 					<img
-						src="/assets/profile2.png"
+						src="/assets/peach.png"
 						alt=""
 						className="widget_small-profile"
 					/>
@@ -71,7 +71,7 @@ function DashWidgetSmall() {
 				</li>
 				<li className="widget_small-item">
 					<img
-						src="/assets/profile2.png"
+						src="/assets/peach.png"
 						alt=""
 						className="widget_small-profile"
 					/>
