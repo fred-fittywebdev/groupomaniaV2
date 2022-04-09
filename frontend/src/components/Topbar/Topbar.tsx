@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Topbar.css';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 const Topbar = () => {
+	const [user, setUser] = useState([]);
+
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem('first_name') || '');
+		if (user) {
+			setUser(user);
+		}
+	}, []);
+
 	return (
 		<div>
 			<div className="topbar-container">
@@ -23,9 +33,9 @@ const Topbar = () => {
 					</div>
 				</div>
 				<div className="right">
-					<div className="topbar_links">
-						<span className="topbar_link">Bienvenue: Mario</span>
-						{/* <NavLink className="navlinks-topbar" to="/">
+					{/* <div className="topbar_links">
+						{/* <span className="topbar_link">Bienvenue: {user}</span> */}
+					{/* <NavLink className="navlinks-topbar" to="/">
 							<span className="topbar_link">Admin</span>
 						</NavLink>
 						<NavLink className="navlinks-topbar" to="/login">
@@ -33,8 +43,8 @@ const Topbar = () => {
 						</NavLink>
 						<NavLink className="navlinks-topbar" to="/register">
 							<span className="topbar_link">Inscriptions</span>
-						</NavLink> */}
-					</div>
+						</NavLink> 
+					</div> */}
 					<div className="topbar_icons">
 						<div className="topbar_icon-item">
 							<Person />

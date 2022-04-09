@@ -1,20 +1,25 @@
 import React from 'react';
 import './Home.css';
-import Feed from '../../components/Feed/Feed';
-import RightBar from '../../components/RightBar/RightBar';
-import Sidebar from '../../components/Sidebar/Sidebar';
 import Topbar from '../../components/Topbar/Topbar';
+import DashSidebar from '../../components/DashSidebar/DashSidebar';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Homepage from '../../components/Homepage/Homepage';
 
 const Home = () => {
 	return (
-		<div>
+		<BrowserRouter>
 			<Topbar />
 			<div className="home_container">
-				<Sidebar />
-				<Feed />
-				<RightBar />
+				<DashSidebar />
+				<Switch>
+					<Route path="/home">
+						<Homepage />
+					</Route>
+				</Switch>
+				{/* <Feed />
+				<RightBar /> */}
 			</div>
-		</div>
+		</BrowserRouter>
 	);
 };
 

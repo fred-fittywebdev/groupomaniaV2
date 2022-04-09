@@ -6,6 +6,14 @@
 	top: 160px;
 }
 
+.dash_sidebar-username {
+	margin-bottom: 25px;
+	display: flex;
+	padding: 8px;
+	align-items: center;
+	color: var(--text-color);
+}
+
 .dash_sidebar-wrapper {
 	padding: 20px;
 }
@@ -31,7 +39,10 @@
 	border-radius: 8px;
 }
 
-.dash_sidebar-item.active,
+.active {
+	background-color: #ffd7d7;
+}
+
 .dash_sidebar-item:hover {
 	background-color: #ffd7d7;
 }

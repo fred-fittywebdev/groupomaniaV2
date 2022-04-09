@@ -51,4 +51,5 @@
 	margin-top: 100px;
 	text-align: left;
 	cursor: pointer;
+	color: var(--primary-color);
 }

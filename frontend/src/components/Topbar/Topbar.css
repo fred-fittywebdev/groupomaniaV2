@@ -68,10 +68,6 @@
 	color: #fff;
 }
 
-.navlinks-topbar.active {
-	text-decoration: overline;
-}
-
 .topbar_icons {
 	display: flex;
 }

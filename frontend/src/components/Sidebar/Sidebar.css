@@ -14,14 +14,6 @@
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
 }
 
-.navlinks {
-	display: flex;
-}
-
-.navlinks.active {
-	text-decoration: underline;
-}
-
 .list-items {
 	display: flex;
 	align-items: center;

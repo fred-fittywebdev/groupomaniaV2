@@ -35,14 +35,14 @@ a {
 	color: var(--text-color);
 }
 
-/* .navlinks {
+.navlinks {
 	text-decoration: none;
 	color: var(--text-color);
 }
 
 .navlinks.active {
 	color: var(--text-color);
-} */
+}
 
 /* layout */
 .page-title {

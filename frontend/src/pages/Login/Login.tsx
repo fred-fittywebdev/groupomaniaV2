@@ -1,21 +1,53 @@
 import axios from 'axios';
 import React, { SyntheticEvent, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { NavLink, Redirect } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [userRole, setUserRole] = useState('');
+	const [redirect, setRedirect] = useState(false);
 
 	const submit = async (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const { data } = await axios.post('http://localhost:8080/api/login', {
-			email,
-			password,
-		});
+		try {
+			const { data } = await axios.post(
+				'http://localhost:8080/api/login',
+				{
+					email,
+					password,
+				}
+			);
+			setRedirect(true);
+			setUserRole(data.user.role.name);
+			localStorage.setItem(
+				'first_name',
+				JSON.stringify(data.user.first_name)
+			);
+			localStorage.setItem('token', JSON.stringify(data.token));
+			localStorage.setItem('role', JSON.stringify(data.user.role.name));
 
-		console.log(data);
+			console.log(data.user.role.name, data.token);
+		} catch (error) {
+			if (error) {
+				toast.error('identifiants incorrects');
+				console.log(error);
+			}
+		}
 	};
+
+	if (userRole === 'Membres' && redirect) {
+		return <Redirect to="/home" />;
+	} else if (
+		(userRole === 'Admin' || userRole === 'Moderateur') &&
+		redirect
+	) {
+		return <Redirect to="/dashboard" />;
+	}
 
 	return (
 		<div>
@@ -26,8 +58,8 @@ function Login() {
 						<p className="left-description">
 							Bienvenue sur Groupomania, veuillez lire les
 							conditions d'utilisation avant de vous connecter.
-							Une fois connecté n'oubliez pasde modifier votre mot
-							de passe. Veillez à rester respectueux dans vos
+							Une fois connecté n'oubliez pas de modifier votre
+							mot de passe. Veillez à rester respectueux dans vos
 							publications, n'oubliez pas que ce sont vos
 							collègues de travail !
 						</p>
@@ -58,10 +90,17 @@ function Login() {
 								</label>
 								<button className="btn">Connexion</button>
 							</form>
-							<a className="forgot-link" href="#">
+							<NavLink to="/forgot" className="forgot-link">
 								Mot de passe oublié?{' '}
-							</a>
+							</NavLink>
 						</div>
+						<ToastContainer
+							position="top-center"
+							autoClose={2000}
+							closeOnClick
+							pauseOnHover
+							theme="colored"
+						/>
 					</div>
 				</div>
 			</div>

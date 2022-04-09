@@ -1,6 +1,8 @@
 // styles
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Forgot from './components/Forgot/Forgot';
+import Reset from './components/Reset/Reset';
 import Dashboard from './pages/Dashboard/Dashboard';
 // import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
@@ -10,20 +12,28 @@ import Register from './pages/Register/Register';
 function App() {
 	return (
 		<div className="App">
-			{/* <BrowserRouter>
+			<BrowserRouter>
 				<Switch>
-					<Route exact path="/">
+					<Route exact path="/home">
 						<Home />
 					</Route>
-					<Route exact path="/login">
+					<Route exact path="/">
 						<Login />
 					</Route>
 					<Route exact path="/register">
 						<Register />
 					</Route>
 				</Switch>
-			</BrowserRouter> */}
-			<Dashboard />
+				<Route exact path="/dashboard">
+					<Dashboard />
+				</Route>
+				<Route path="/forgot">
+					<Forgot />
+				</Route>
+				<Route exact path="/reset/:forgot_token">
+					<Reset />
+				</Route>
+			</BrowserRouter>
 		</div>
 	);
 }
