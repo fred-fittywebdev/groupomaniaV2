@@ -10,16 +10,7 @@ function Feed() {
 
 	useEffect(() => {
 		(async () => {
-			const { data } = await axios.get(
-				'http://localhost:8080/api/posts',
-				{
-					headers: {
-						Authorization:
-							'Bearer ' +
-							JSON.parse(localStorage.getItem('token') || ''),
-					},
-				}
-			);
+			const { data } = await axios.get('posts');
 			setPosts(data.data);
 		})();
 	}, []);

@@ -16,7 +16,7 @@ function Reset() {
 	const submit = async (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		await axios.post('http://localhost:8080/api/reset', {
+		await axios.post('reset', {
 			forgot_token,
 			password,
 			password_confirm: password_confirm,

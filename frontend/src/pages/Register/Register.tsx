@@ -12,16 +12,13 @@ function Register() {
 	const register = async (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const { data } = await axios.post(
-			'http://localhost:8080/api/register',
-			{
-				first_name,
-				last_name,
-				email,
-				password,
-				password_confirm,
-			}
-		);
+		const { data } = await axios.post('register', {
+			first_name,
+			last_name,
+			email,
+			password,
+			password_confirm,
+		});
 
 		console.log(data);
 	};

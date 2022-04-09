@@ -12,7 +12,7 @@ function Forgot() {
 	const submit = async (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const response = await axios.post('http://localhost:8080/api/forgot', {
+		const response = await axios.post('forgot', {
 			email,
 		});
 		console.log(response);
