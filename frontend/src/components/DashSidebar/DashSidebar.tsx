@@ -14,6 +14,7 @@ import {
 	RssFeed,
 	Warning,
 } from '@material-ui/icons';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './DashSidebar.css';
@@ -36,6 +37,11 @@ function DashSidebar() {
 			setUser(user);
 		}
 	}, []);
+
+	const logout = async () => {
+		localStorage.clear();
+		window.location.href = '/';
+	};
 
 	return (
 		<>
@@ -102,6 +108,13 @@ function DashSidebar() {
 									<Equalizer className="dash_sidebar-icons" />
 									Data
 								</li>
+								<li
+									onClick={logout}
+									className="dash_sidebar-item"
+								>
+									<PowerSettingsNew className="dash_sidebar-icons" />
+									Logout
+								</li>
 							</ul>
 						</div>
 					)}
@@ -152,7 +165,10 @@ function DashSidebar() {
 									activeClassName="active"
 									to="/"
 								>
-									<li className="dash_sidebar-item">
+									<li
+										onClick={logout}
+										className="dash_sidebar-item"
+									>
 										<PowerSettingsNew className="dash_sidebar-icons" />
 										Logout
 									</li>
