@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { IPosts, Post } from '../../Models/Post';
+import PostShare from '../PostShare/PostShare';
+import PostCard from '../Postcard/PostCard';
 import './Feed.css';
 
 function Feed() {
@@ -32,6 +34,8 @@ function Feed() {
 	return (
 		<div className="feed">
 			<p>Bienvenue: {user}</p>
+			<PostShare />
+			<PostCard />
 			<ul>
 				{posts.map((p: Post) => {
 					return (

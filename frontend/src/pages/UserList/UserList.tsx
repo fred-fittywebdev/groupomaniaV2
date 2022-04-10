@@ -1,74 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserList.css';
 
-import {
-	DataGrid,
-	GridColDef,
-	GridValueGetterParams,
-} from '@material-ui/data-grid';
 import { Delete } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { User } from '../../Models/User';
+import PostCard from '../../components/PostShare/PostShare';
 
 function UserList() {
-	const columns: GridColDef[] = [
-		{ field: 'id', headerName: 'ID', width: 130 },
-		{ field: 'firstName', headerName: 'First name', width: 200 },
-		{ field: 'lastName', headerName: 'Last name', width: 200 },
-		{
-			field: 'email',
-			headerName: 'Email',
-			width: 200,
-		},
-		{
-			field: 'status',
-			headerName: 'Status',
-			width: 130,
-		},
-		{
-			field: 'rôle',
-			headerName: 'Rôles',
-			width: 130,
-		},
-		{
-			field: 'action',
-			headerName: 'Action',
-			width: 150,
-			renderCell: (params) => {
-				return (
-					<>
-						<Link to={'/user/' + params.row.id}>
-							<button className="btn user-list-btn">
-								Modifier
-							</button>
-						</Link>
-						<Delete className="user-list-delete" />
-					</>
-				);
-			},
-		},
-	];
+	const [usersList, setUsersList] = useState([]);
 
-	const rows = [
-		{
-			id: 1,
-			lastName: 'Snow',
-			firstName: 'Jon',
-			email: 'jon.snow@example.com',
-			status: 'actif',
-			rôle: 'membre',
-		},
-	];
+	useEffect(() => {
+		(async () => {
+			const { data } = await axios.get('users', {
+				headers: {
+					Authorization:
+						'Bearer ' +
+						JSON.parse(localStorage.getItem('token') || ''),
+				},
+			});
+			setUsersList(data.data);
+			console.log(data.data[0].role);
+		})();
+	}, []);
 
 	return (
 		<div className="user_list">
-			<DataGrid
-				rows={rows}
-				columns={columns}
-				pageSize={5}
-				rowsPerPageOptions={[10]}
-				checkboxSelection
-				disableSelectionOnClick
-			/>
+			{usersList.map((usersList: User) => {
+				return (
+					<div key={usersList.id}>
+						<li>{usersList.id}</li>
+						<li>{usersList.first_name}</li>
+						<li>{usersList.last_name}</li>
+						<li>{usersList.username}</li>
+						<li>{usersList.email}</li>
+						<li>{usersList.is_valid.toString()}</li>
+						<li>{usersList.warnings}</li>
+						<li>{usersList.profile_picture}</li>
+					</div>
+				);
+			})}
 		</div>
 	);
 }
