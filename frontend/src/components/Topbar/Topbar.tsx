@@ -7,12 +7,12 @@ import axios from 'axios';
 const Topbar = () => {
 	const [user, setUser] = useState([]);
 
-	useEffect(() => {
-		const user = JSON.parse(localStorage.getItem('first_name') || '');
-		if (user) {
-			setUser(user);
-		}
-	}, []);
+	// useEffect(() => {
+	// 	const user = JSON.parse(localStorage.getItem('first_name') || '');
+	// 	if (user) {
+	// 		setUser(user);
+	// 	}
+	// }, []);
 
 	return (
 		<div>

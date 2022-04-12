@@ -1,3 +1,14 @@
 .feed {
 	text-align: center;
 }
+
+.feed_welcome {
+	color: var(--text-color);
+	background-color: #ffd7d7;
+	padding: 15px;
+	border-radius: 8px;
+	width: 50%;
+	margin: 0 auto;
+	margin-bottom: 100px;
+	text-transform: uppercase;
+}

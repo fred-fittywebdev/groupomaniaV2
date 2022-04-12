@@ -4,6 +4,7 @@ import {
 	BugReport,
 	CardMembership,
 	Create,
+	EmojiEmotions,
 	Equalizer,
 	Face,
 	Group,
@@ -18,23 +19,28 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './DashSidebar.css';
+import jwt_decode from 'jwt-decode';
 
 function DashSidebar() {
 	const [userRole, setUserRole] = useState('');
 
 	useEffect(() => {
-		const userRole = JSON.parse(localStorage.getItem('role') || '');
-		if (userRole) {
-			setUserRole(userRole);
+		// const userRole = JSON.parse(localStorage.getItem('role') || '');
+		const token = JSON.parse(localStorage.getItem('token') || '');
+		const decoded: any = jwt_decode(token);
+
+		if (decoded) {
+			setUserRole(decoded.role);
 		}
 	}, []);
 
 	const [user, setUser] = useState([]);
 
 	useEffect(() => {
-		const user = JSON.parse(localStorage.getItem('first_name') || '');
+		const token = JSON.parse(localStorage.getItem('token') || '');
+		const decoded: any = jwt_decode(token);
 		if (user) {
-			setUser(user);
+			setUser(decoded.first_name);
 		}
 	}, []);
 
@@ -120,6 +126,14 @@ function DashSidebar() {
 					)}
 					{userRole !== 'Admin' && userRole !== 'Moderateur' && (
 						<div className="dash_sidebar-menu">
+							<h3 className="dash_sidebar-title">Connecté</h3>
+							<span className="dash_sidebar-username">
+								<EmojiEmotions
+									htmlColor="green"
+									className="dash_sidebar-icons"
+								/>
+								Bienvenue {user}
+							</span>
 							<h3 className="dash_sidebar-title">Menu</h3>
 							<ul className="dash_sidebar-list">
 								<NavLink

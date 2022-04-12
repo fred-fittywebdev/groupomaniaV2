@@ -21,12 +21,12 @@ function Login() {
 			});
 			setRedirect(true);
 			setUserRole(data.user.role.name);
-			localStorage.setItem(
-				'first_name',
-				JSON.stringify(data.user.first_name)
-			);
+			// localStorage.setItem(
+			// 	'first_name',
+			// 	JSON.stringify(data.user.first_name)
+			// );
 			localStorage.setItem('token', JSON.stringify(data.token));
-			localStorage.setItem('role', JSON.stringify(data.user.role.name));
+			// localStorage.setItem('role', JSON.stringify(data.user.role.name));
 
 			console.log(data.user.role.name, data.token);
 		} catch (error) {
