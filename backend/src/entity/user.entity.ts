@@ -49,7 +49,7 @@ export class User extends BaseEntity {
 
 	@Column({
 		nullable: true,
-		default: 'uploads/avatar-defaut.png',
+		default: 'http://localhost:8080/api/uploads/avatar-defaut.png',
 	})
 	profile_picture: string;
 

@@ -12,12 +12,18 @@ import {
 import { Comments } from './comments.entity';
 import { User } from './user.entity';
 
-@Entity()
+@Entity({
+	orderBy: {
+		id: 'DESC',
+	},
+})
 export class Post extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({
+		nullable: true,
+	})
 	title: string;
 
 	@Column('text')

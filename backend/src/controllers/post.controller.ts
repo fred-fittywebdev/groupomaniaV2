@@ -8,7 +8,7 @@ import { User } from '../entity/user.entity';
 // On récupère tous les posts
 export const Posts = async (req: Request, res: Response) => {
 	// mise en place de la pagination
-	const take = 10;
+	const take = 5;
 	const page = parseInt((req.query.page as string) || '1');
 
 	const repository = getManager().getRepository(Post);
@@ -43,9 +43,7 @@ export const CreatePostUser = async (req: Request, res: Response) => {
 
 	const { title, content } = req.body;
 
-	const user = await User.findOne(parseInt(id), {
-		relations: ['user', 'comments'],
-	});
+	const user = await User.findOne(parseInt(id));
 
 	if (!user) {
 		return res.json({
