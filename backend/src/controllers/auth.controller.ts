@@ -71,6 +71,8 @@ export const Login = async (req: Request, res: Response) => {
 			valid: user.is_valid,
 			first_name: user.first_name,
 			role: user.role.name,
+			picture: user.profile_picture,
+			user: user,
 		},
 		process.env.SECRET_TOKEN,
 		{ expiresIn: '1h' }
