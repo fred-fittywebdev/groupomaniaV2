@@ -40,7 +40,8 @@ function DashSidebar() {
 		const token = JSON.parse(localStorage.getItem('token') || '');
 		const decoded: any = jwt_decode(token);
 		if (user) {
-			setUser(decoded.first_name);
+			setUser(decoded.user.first_name);
+			console.log(decoded.user.profile_picture);
 		}
 	}, []);
 
