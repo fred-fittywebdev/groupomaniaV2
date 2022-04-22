@@ -8,6 +8,12 @@ import axios from 'axios';
 //baseurl
 axios.defaults.baseURL = 'http://localhost:8080/api/';
 
+//@ts-ignore
+const token = 'Bearer ' + JSON.parse(localStorage.getItem('token'));
+if (token) {
+	axios.defaults.headers.common['Authorization'] = token;
+}
+
 ReactDOM.render(
 	<React.StrictMode>
 		<App />

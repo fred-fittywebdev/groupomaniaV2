@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Forgot from './components/Forgot/Forgot';
 import Reset from './components/Reset/Reset';
+import { CurrentUserContextProvider } from './Context/UseCurrentUser';
 import Dashboard from './pages/Dashboard/Dashboard';
 // import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';

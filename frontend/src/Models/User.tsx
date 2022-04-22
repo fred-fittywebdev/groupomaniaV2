@@ -2,13 +2,18 @@ import { Role } from './Roles';
 
 export class User {
 	constructor(
-		public id: number,
-		public first_name: string,
-		public last_name: string,
-		public username: string,
-		public email: string,
-		public is_valid: boolean,
-		public warnings: number,
-		public profile_picture: string
+		public id = 0,
+		public first_name = '',
+		public last_name = '',
+		public username = '',
+		public email = '',
+		public is_valid = '',
+		public warnings = null,
+		public profile_picture = '',
+		public role = new Role()
 	) {}
+
+	get name() {
+		return this.first_name + ' ' + this.last_name;
+	}
 }

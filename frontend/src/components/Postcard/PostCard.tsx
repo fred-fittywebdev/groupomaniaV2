@@ -1,9 +1,23 @@
-import { MoreVert } from '@material-ui/icons';
-import React from 'react';
+import {
+	AddAlert,
+	AddComment,
+	DeleteForever,
+	Edit,
+	Favorite,
+	MoreVert,
+	ThumbUp,
+} from '@material-ui/icons';
+import React, { SyntheticEvent, useState } from 'react';
 import './postCard.css';
+
+import Tippy from '@tippy.js/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 
 import moment from 'moment';
 import 'moment/locale/fr';
+
+import axios from 'axios';
 moment.locale();
 
 interface IProps {
@@ -39,30 +53,61 @@ interface User {
 }
 
 function PostCard({ posts }: IProps) {
+	const deletPost = async (id: number) => {
+		if (window.confirm('Vous aller supprimer ce post, en êtes vous sur?')) {
+			await axios.delete(`post/${id}`, {
+				headers: {
+					Authorization:
+						'Bearer ' +
+						JSON.parse(localStorage.getItem('token') || ''),
+				},
+			});
+		}
+
+		posts.filter((posts) => posts.id !== id);
+		window.location.reload();
+	};
+
 	return (
 		<>
 			{posts.map((p) => {
 				return (
 					<div className="post">
 						<div className="post-wrapper">
-							<div className="post_top">
+							<div key={p.id} className="post_top">
 								<div className="post_top-left">
 									<img
 										className="post_profile_img"
-										src="/assets/peach.png"
+										src={
+											p.user?.profile_picture
+												? p.user.profile_picture
+												: '/assets/peach.png'
+										}
 										alt="auteur du post"
 									/>
+
 									<span className="post_username">
 										{p.user?.first_name}
 									</span>
 									<span className="post_date">
-										{moment(p.posted_at)
-											.startOf('day')
-											.fromNow()}
+										{moment(p.posted_at).format('LLL')}
 									</span>
 								</div>
 								<div className="post_top_right">
-									<MoreVert />
+									<Tippy
+										arrow={false}
+										className="tooltip"
+										theme="light"
+										interactive={true}
+										placement="right"
+										content={
+											<span>
+												Modifiez votre commentaire
+											</span>
+										}
+									>
+										<Edit htmlColor="green" />
+									</Tippy>
 								</div>
 							</div>
 							<div className="post_center">
@@ -75,29 +120,39 @@ function PostCard({ posts }: IProps) {
 							</div>
 							<div className="post_bottom">
 								<div className="post_bottom_left">
-									<img
+									<ThumbUp
 										className="like_icon"
-										src="assets/like.png"
-										alt=""
-									/>
-									<img
-										className="like_icon"
-										src="assets/heart.png"
-										alt=""
+										htmlColor="blue"
 									/>
 									<span className="post_like_counter">
 										{p.like} j'aime
 									</span>
 								</div>
-								<div className="postBottomRight">
+								<div>
+									<div className="post_bottom_center">
+										<AddAlert
+											htmlColor="tomato"
+											className="warning_icon"
+										/>
+										<span className="post_comment_text">
+											Signaler
+										</span>
+									</div>
+								</div>
+								<div className="post_bottom_right">
+									<DeleteForever
+										htmlColor="red"
+										className="warning_icon"
+										onClick={() => deletPost(p.id)}
+									/>
 									<span className="post_comment_text">
-										Commenter
+										Supprimer
 									</span>
 								</div>
 							</div>
 							<hr className="post_hr" />
 							<div className="post_comment_section">
-								<span>Les plus pertinents:</span>
+								<span>Commentaires</span>
 								<div>
 									{p.comments.map((c) => {
 										return (
@@ -107,6 +162,16 @@ function PostCard({ posts }: IProps) {
 										);
 									})}
 								</div>
+							</div>
+							<hr className="post_hr" />
+							<div className="post_comment-new">
+								<input
+									// onChange={(e) => setContent(e.target.value)}
+									placeholder="Ajoutez votre commentaire.."
+									type="text"
+									className="post_new"
+								/>
+								<AddComment className="new-icon" />
 							</div>
 						</div>
 					</div>

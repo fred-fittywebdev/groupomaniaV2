@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { NavLink, Redirect } from 'react-router-dom';
 import './Login.css';
+import { useCurrentUser } from '../../Context/UseCurrentUser';
 
 function Login() {
 	const [email, setEmail] = useState('');

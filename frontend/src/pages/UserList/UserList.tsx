@@ -14,9 +14,7 @@ function UserList() {
 		(async () => {
 			const { data } = await axios.get('users', {
 				headers: {
-					Authorization:
-						'Bearer ' +
-						JSON.parse(localStorage.getItem('token') || ''),
+					Authorization: localStorage.getItem('token') || '',
 				},
 			});
 			setUsersList(data.data);

@@ -1,8 +1,32 @@
 import { EmojiEmotions, Label, PermMedia } from '@material-ui/icons';
-import React from 'react';
+import axios from 'axios';
+import React, { SyntheticEvent, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import './PostShare.css';
 
-function PostCard() {
+function PostShare() {
+	const [content, setContent] = useState('');
+	const [redirect, setRedirect] = useState(false);
+
+	const send = async (e: SyntheticEvent) => {
+		e.preventDefault();
+
+		await axios.post('posts', {
+			method: 'POST',
+			headers: {
+				Authorization:
+					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+			},
+			content,
+		});
+		setContent('');
+		setRedirect(true);
+		window.location.reload();
+	};
+
+	// if (redirect) {
+	// 	return <Redirect to="/home" />;
+	// }
 	return (
 		<div className="post_container">
 			<div className="post_wrapper">
@@ -13,9 +37,11 @@ function PostCard() {
 						className="post_profile_picture"
 					/>
 					<input
+						onChange={(e) => setContent(e.target.value)}
 						placeholder="A quoi pensez-vous?"
 						type="text"
 						className="post_input"
+						value={content}
 					/>
 				</div>
 				<hr className="post_hr" />
@@ -40,11 +66,13 @@ function PostCard() {
 							<span className="post_option-text">Réaction</span>
 						</div>
 					</div>
-					<button className="btn post-btn">Poster</button>
+					<button onClick={send} className="btn post-btn">
+						Poster
+					</button>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default PostCard;
+export default PostShare;

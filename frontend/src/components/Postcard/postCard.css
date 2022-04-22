@@ -21,8 +21,8 @@
 }
 
 .post_profile_img {
-	width: 32px;
-	height: 32px;
+	width: 50px;
+	height: 50px;
 	border-radius: 50%;
 	object-fit: cover;
 }
@@ -66,12 +66,15 @@
 	justify-content: space-between;
 }
 
-.post_bottom_left {
+.post_bottom_left,
+.post_bottom_center,
+.post_bottom_right {
 	display: flex;
 	align-items: center;
 }
 
-.like_icon {
+.like_icon,
+.warning_icon {
 	width: 24px;
 	height: 24px;
 	margin-right: 5px;
@@ -110,4 +113,27 @@
 	padding: 10px;
 	margin: 5px;
 	border-radius: 8px;
+}
+
+.post_comment-new {
+	display: flex;
+	align-items: center;
+	width: 80%;
+	margin: 0px auto;
+	justify-content: space-around;
+}
+
+.post_new {
+	border: none;
+	border-bottom: 1px solid rgba(255, 215, 215, 0.38);
+}
+
+.new-icon {
+	color: #ffd7d7;
+	cursor: pointer;
+}
+
+.tooltip {
+	background-color: #ffd7d7 !important;
+	border-radius: 8px !important;
 }

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import PostShare from '../PostShare/PostShare';
 import PostCard from '../Postcard/PostCard';
 import './Feed.css';
+import Paginator from '../Paginator/Paginator';
+import UserType from '../../Types/UserType';
 
 interface IPosts {
 	posts: {
@@ -42,10 +44,12 @@ function Feed() {
 	const [user, setUser] = useState([]);
 
 	const [posts, setPosts] = useState<IPosts['posts']>([]);
+	const [page, setPage] = useState(1);
+	const [lastPage, setLastPage] = useState(0);
 
 	useEffect(() => {
 		(async () => {
-			const { data } = await axios.get('posts', {
+			const { data } = await axios.get(`posts?page=${page}`, {
 				headers: {
 					Authorization:
 						'Bearer ' +
@@ -53,9 +57,24 @@ function Feed() {
 				},
 			});
 			setPosts(data.data);
+			setLastPage(data.meta.last_page);
 			console.log(data.data);
 		})();
-	}, []);
+		// Pour changer de page on doit rappeller le useEffect a chaque changement, on met donc les pages en dépendences. -> Chaque fois que les pages changent le UE est appelé
+	}, [page]);
+
+	// Mise en place de la pagination faite dans le back
+	// const next = () => {
+	// 	if (page < lastPage) {
+	// 		setPage(page + 1);
+	// 	}
+	// };
+
+	// const prev = () => {
+	// 	if (page >= 1) {
+	// 		setPage(page - 1);
+	// 	}
+	// };
 
 	// useEffect(() => {
 	// 	const user = JSON.parse(localStorage.getItem('first_name') || '');
@@ -70,6 +89,25 @@ function Feed() {
 			<h4 className="feed_welcome">Fil d'actualité.</h4>
 			<PostShare />
 			<PostCard posts={posts} />
+			<Paginator
+				page={page}
+				lastPage={lastPage}
+				pageChanged={(page) => setPage(page)}
+			/>
+			{/* <nav className="page_nav">
+				<ul className="page_nav-list">
+					<li className="page_nav-items">
+						<a href="#" className="btn" onClick={prev}>
+							Precédent
+						</a>
+					</li>
+					<li className="page_nav-items">
+						<a href="#" className="btn page_btn" onClick={next}>
+							Suivant
+						</a>
+					</li>
+				</ul>
+			</nav> */}
 		</div>
 	);
 }

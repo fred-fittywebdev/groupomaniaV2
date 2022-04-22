@@ -12,3 +12,19 @@
 	margin-bottom: 100px;
 	text-transform: uppercase;
 }
+
+.page_nav {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 15px;
+}
+
+.page_nav-list {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+}
+
+.page_btn {
+	margin-left: 10px;
+}
