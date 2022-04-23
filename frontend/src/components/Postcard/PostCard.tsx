@@ -100,8 +100,8 @@ function PostCard({ posts }: IProps) {
 		const token = JSON.parse(localStorage.getItem('token') || '');
 		const decoded: any = jwt_decode(token);
 		if (decoded) {
-			setUser(decoded.user.id);
-			console.log(decoded.user.id);
+			setUser(decoded.user);
+			console.log(user?.first_name);
 		}
 	}, []);
 
@@ -125,6 +125,8 @@ function PostCard({ posts }: IProps) {
 
 									<span className="post_username">
 										{p.user?.first_name}
+										{user?.id}
+										{p.user?.id}
 									</span>
 									<span className="post_date">
 										{moment(p.posted_at).format('LLL')}
