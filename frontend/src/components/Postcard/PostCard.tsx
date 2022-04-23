@@ -5,9 +5,13 @@ import {
 	Edit,
 	Favorite,
 	MoreVert,
+	ThumbDown,
+	ThumbDownOutlined,
 	ThumbUp,
 } from '@material-ui/icons';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
+import UserType from '../../Types/UserType';
 import './postCard.css';
 
 import Tippy from '@tippy.js/react';
@@ -26,7 +30,7 @@ interface IProps {
 		title: string;
 		content: string;
 		image: string;
-		like: boolean;
+		like: number;
 		posted_at: Date;
 		is_reported: boolean;
 		comments: Comment[];
@@ -53,6 +57,9 @@ interface User {
 }
 
 function PostCard({ posts }: IProps) {
+	// const [like, setLike] = useState(false); // mettre le nombre de like
+	const [user, setUser] = useState<UserType>();
+
 	const deletPost = async (id: number) => {
 		if (window.confirm('Vous aller supprimer ce post, en êtes vous sur?')) {
 			await axios.delete(`post/${id}`, {
@@ -67,6 +74,36 @@ function PostCard({ posts }: IProps) {
 		posts.filter((posts) => posts.id !== id);
 		window.location.reload();
 	};
+
+	const likePost = async (id: number) => {
+		await axios.put(`post/${id}/like`, {
+			headers: {
+				Authorization:
+					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+			},
+		});
+		// setLike(like);
+		window.location.reload();
+	};
+
+	const disLikePost = async (id: number) => {
+		await axios.put(`post/${id}/dislike`, {
+			headers: {
+				Authorization:
+					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+			},
+		});
+		window.location.reload();
+	};
+
+	useEffect(() => {
+		const token = JSON.parse(localStorage.getItem('token') || '');
+		const decoded: any = jwt_decode(token);
+		if (decoded) {
+			setUser(decoded.user.id);
+			console.log(decoded.user.id);
+		}
+	}, []);
 
 	return (
 		<>
@@ -123,10 +160,16 @@ function PostCard({ posts }: IProps) {
 									<ThumbUp
 										className="like_icon"
 										htmlColor="blue"
+										onClick={() => likePost(p.id)}
 									/>
 									<span className="post_like_counter">
 										{p.like} j'aime
 									</span>
+									<ThumbDownOutlined
+										className="dislike_icon"
+										htmlColor="gray"
+										onClick={() => disLikePost(p.id)}
+									/>
 								</div>
 								<div>
 									<div className="post_bottom_center">
@@ -139,7 +182,14 @@ function PostCard({ posts }: IProps) {
 										</span>
 									</div>
 								</div>
-								<div className="post_bottom_right">
+								<div
+									className="post_bottom_right"
+									style={
+										p.user?.id !== user?.id
+											? { display: 'none' }
+											: { display: 'flex' }
+									}
+								>
 									<DeleteForever
 										htmlColor="red"
 										className="warning_icon"

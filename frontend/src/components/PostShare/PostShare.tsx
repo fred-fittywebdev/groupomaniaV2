@@ -32,7 +32,7 @@ function PostShare() {
 		const decoded: any = jwt_decode(token);
 		if (decoded) {
 			setUser(decoded.user);
-			console.log(user?.first_name);
+			console.log(decoded.user);
 		}
 	}, []);
 

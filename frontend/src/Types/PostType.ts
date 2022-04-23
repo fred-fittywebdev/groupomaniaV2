@@ -5,7 +5,7 @@ type PostType = {
 	title: string;
 	content: string;
 	image: string;
-	like: boolean;
+	like: number;
 	posted_at: Date;
 	is_reported: boolean;
 	comments: Comment[];
