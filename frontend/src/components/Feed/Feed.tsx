@@ -50,6 +50,7 @@ function Feed() {
 	useEffect(() => {
 		(async () => {
 			const { data } = await axios.get(`posts?page=${page}`, {
+				// () pour récupérer les data directement. avec .data
 				headers: {
 					Authorization:
 						'Bearer ' +
@@ -62,6 +63,21 @@ function Feed() {
 		})();
 		// Pour changer de page on doit rappeller le useEffect a chaque changement, on met donc les pages en dépendences. -> Chaque fois que les pages changent le UE est appelé
 	}, [page]);
+
+	const deletPost = async (id: number) => {
+		if (window.confirm('Vous aller supprimer ce post, en êtes vous sur?')) {
+			await axios.delete(`post/${id}`, {
+				headers: {
+					Authorization:
+						'Bearer ' +
+						JSON.parse(localStorage.getItem('token') || ''),
+				},
+			});
+		}
+
+		posts.filter((posts) => posts.id !== id);
+		window.location.reload();
+	};
 
 	// Mise en place de la pagination faite dans le back
 	// const next = () => {
@@ -88,7 +104,7 @@ function Feed() {
 		<div className="feed">
 			<h4 className="feed_welcome">Fil d'actualité.</h4>
 			<PostShare />
-			<PostCard posts={posts} />
+			<PostCard posts={posts} deletPost={deletPost} />
 			<Paginator
 				page={page}
 				lastPage={lastPage}
