@@ -65,8 +65,12 @@ interface User {
 const PostUnique = ({ post: p, deletPost }: IProps) => {
 	const [user, setUser] = useState<UserType>();
 
+	// satte pour la fonction like/dislike
 	const [like, setLike] = useState(p.like);
 	const [isLiked, setIsLiked] = useState(false);
+
+	// state pour la fonction signalement du post
+	const [isReported, setIsReported] = useState(false);
 
 	const likeHandler = async (id: number) => {
 		// setLike(isLiked ? like - 1 : like + 1); // si on à déjà aimé le post on enlève 1, sinon on ajoute.
@@ -94,24 +98,48 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 		}
 	};
 
-	const likePost = async (id: number) => {
-		await axios.put(`post/${id}/like`, {
-			headers: {
-				Authorization:
-					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
-			},
-		});
+	const reportPost = async (id: number) => {
+		if (isReported) {
+			alert('Vous avez déjà signalé ce post');
+			return;
+		}
+		if (
+			window.confirm(
+				'Vous êtes sur le point de signaler ce post, continuer?'
+			)
+		) {
+			if (!isReported) {
+				await axios.put(`post/${id}/report`, {
+					headers: {
+						Authorization:
+							'Bearer ' +
+							JSON.parse(localStorage.getItem('token') || ''),
+					},
+				});
+				setIsReported(true);
+				alert("L'administrateur du site sera informé par mail");
+			}
+		}
 	};
 
-	const disLikePost = async (id: number) => {
-		await axios.put(`post/${id}/dislike`, {
-			headers: {
-				Authorization:
-					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
-			},
-		});
-		window.location.reload();
-	};
+	// const likePost = async (id: number) => {
+	// 	await axios.put(`post/${id}/like`, {
+	// 		headers: {
+	// 			Authorization:
+	// 				'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+	// 		},
+	// 	});
+	// };
+
+	// const disLikePost = async (id: number) => {
+	// 	await axios.put(`post/${id}/dislike`, {
+	// 		headers: {
+	// 			Authorization:
+	// 				'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+	// 		},
+	// 	});
+	// 	window.location.reload();
+	// };
 
 	useEffect(() => {
 		const token = JSON.parse(localStorage.getItem('token') || '');
@@ -183,6 +211,7 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 							<AddAlert
 								htmlColor="tomato"
 								className="warning_icon"
+								onClick={() => reportPost(p.id)}
 							/>
 							<span className="post_comment_text">Signaler</span>
 						</div>
