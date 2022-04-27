@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { send } from 'process';
 import { Users } from './user.controller';
 import { User } from '../entity/user.entity';
+import { createTransport } from 'nodemailer';
 
 // On récupère tous les posts
 export const Posts = async (req: Request, res: Response) => {
@@ -97,6 +98,24 @@ export const LikePost = async (req: Request, res: Response) => {
 // On signale un post
 export const reportPost = async (req: Request, res: Response) => {
 	const repository = getManager().getRepository(Post);
+	const adminEmail = 'fred.guerra@example.com';
+
+	// Determine le port pour envoyer les emails, ici Mailhog
+	const transporter = createTransport({
+		host: '0.0.0.0',
+		port: 1025,
+	});
+
+	// Création de l'url que recevra la personne dans le mail,
+	const url = 'http://localhost:3000';
+
+	// Envoi de l'email
+	await transporter.sendMail({
+		from: 'admin@groupomania.com',
+		to: adminEmail,
+		subject: "Un post vient d'être signalé sur Groupomania",
+		html: `Connectez vous en suivant <a href="${url}">ce lien </a>  pour voir de quoi il est question`,
+	});
 
 	const post = await repository.findOne(req.params.id);
 
@@ -108,7 +127,7 @@ export const reportPost = async (req: Request, res: Response) => {
 		message: 'Vous avez signalé ce post',
 	});
 };
-// On like un post
+// On dislike un post
 export const DislikePost = async (req: Request, res: Response) => {
 	const repository = getManager().getRepository(Post);
 
