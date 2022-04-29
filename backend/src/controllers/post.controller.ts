@@ -42,7 +42,7 @@ export const CreatePost = async (req: Request, res: Response) => {
 export const CreatePostUser = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
-	const { title, content } = req.body;
+	const { title, content, image } = req.body;
 
 	const user = await User.findOne(parseInt(id));
 
@@ -55,6 +55,7 @@ export const CreatePostUser = async (req: Request, res: Response) => {
 	const post = Post.create({
 		title,
 		content,
+		image,
 		user,
 	});
 
