@@ -19,6 +19,9 @@ import React, {
 import jwt_decode from 'jwt-decode';
 import UserType from '../../Types/UserType';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Tippy from '@tippy.js/react';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
@@ -65,6 +68,10 @@ interface User {
 const PostUnique = ({ post: p, deletPost }: IProps) => {
 	const [user, setUser] = useState<UserType>();
 
+	//modal
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const toggleModal = () => setIsModalOpen(!isModalOpen);
+
 	// satte pour la fonction like/dislike
 	const [like, setLike] = useState(p.like);
 	const [isLiked, setIsLiked] = useState(false);
@@ -73,8 +80,6 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 	const [isReported, setIsReported] = useState(false);
 
 	const likeHandler = async (id: number) => {
-		// setLike(isLiked ? like - 1 : like + 1); // si on à déjà aimé le post on enlève 1, sinon on ajoute.
-		// setIsLiked(!isLiked); // on met ici la valuer opposéz a celle qu'il a.
 		if (!isLiked) {
 			await axios.put(`post/${id}/like`, {
 				headers: {
@@ -100,7 +105,7 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 
 	const reportPost = async (id: number) => {
 		if (isReported) {
-			alert('Vous avez déjà signalé ce post');
+			toast.warning('Vous avez déjà signalé ce post');
 			return;
 		}
 		if (
@@ -117,29 +122,10 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 					},
 				});
 				setIsReported(true);
-				alert("L'administrateur du site sera informé par mail");
+				toast.success("Le pot a bien été signalé a l'administrateur");
 			}
 		}
 	};
-
-	// const likePost = async (id: number) => {
-	// 	await axios.put(`post/${id}/like`, {
-	// 		headers: {
-	// 			Authorization:
-	// 				'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
-	// 		},
-	// 	});
-	// };
-
-	// const disLikePost = async (id: number) => {
-	// 	await axios.put(`post/${id}/dislike`, {
-	// 		headers: {
-	// 			Authorization:
-	// 				'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
-	// 		},
-	// 	});
-	// 	window.location.reload();
-	// };
 
 	useEffect(() => {
 		const token = JSON.parse(localStorage.getItem('token') || '');
@@ -180,7 +166,7 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 							placement="right"
 							content={<span>Modifiez votre commentaire</span>}
 						>
-							<Edit htmlColor="green" />
+							<Edit htmlColor="green" onClick={toggleModal} />
 						</Tippy>
 					</div>
 				</div>
@@ -200,11 +186,6 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 							onClick={() => likeHandler(p.id)}
 						/>
 						<span className="post_like_counter">{like} j'aime</span>
-						{/* <ThumbDownOutlined
-							className="dislike_icon"
-							htmlColor="gray"
-							onClick={() => disLikePost(p.id)}
-						/> */}
 					</div>
 					<div>
 						<div className="post_bottom_center">

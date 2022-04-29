@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import { IPosts, Post } from '../../Models/Post';
 import PostShare from '../PostShare/PostShare';
 import PostCard from '../Postcard/PostCard';
@@ -74,31 +76,10 @@ function Feed() {
 				},
 			});
 		}
-
-		posts.filter((posts) => posts.id !== id);
-		window.location.reload();
+		setPosts(posts.filter((posts) => posts.id !== id));
+		//notification
+		toast.info('Le post a bien été suprimé.');
 	};
-
-	// Mise en place de la pagination faite dans le back
-	// const next = () => {
-	// 	if (page < lastPage) {
-	// 		setPage(page + 1);
-	// 	}
-	// };
-
-	// const prev = () => {
-	// 	if (page >= 1) {
-	// 		setPage(page - 1);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	const user = JSON.parse(localStorage.getItem('first_name') || '');
-	// 	if (user) {
-	// 		setUser(user);
-	// 		console.log(user);
-	// 	}
-	// }, []);
 
 	return (
 		<div className="feed">
@@ -110,20 +91,13 @@ function Feed() {
 				lastPage={lastPage}
 				pageChanged={(page) => setPage(page)}
 			/>
-			{/* <nav className="page_nav">
-				<ul className="page_nav-list">
-					<li className="page_nav-items">
-						<a href="#" className="btn" onClick={prev}>
-							Precédent
-						</a>
-					</li>
-					<li className="page_nav-items">
-						<a href="#" className="btn page_btn" onClick={next}>
-							Suivant
-						</a>
-					</li>
-				</ul>
-			</nav> */}
+			<ToastContainer
+				position="top-center"
+				autoClose={2000}
+				closeOnClick
+				pauseOnHover
+				theme="colored"
+			/>
 		</div>
 	);
 }

@@ -35,13 +35,15 @@ function DashSidebar() {
 	}, []);
 
 	const [user, setUser] = useState([]);
+	const [userPicture, setUserPicture] = useState('');
 
 	useEffect(() => {
 		const token = JSON.parse(localStorage.getItem('token') || '');
 		const decoded: any = jwt_decode(token);
 		if (user) {
 			setUser(decoded.user.first_name);
-			console.log(decoded.user.profile_picture);
+			setUserPicture(decoded.user.profile_picture);
+			console.log(userPicture);
 		}
 	}, []);
 
@@ -57,10 +59,17 @@ function DashSidebar() {
 					{(userRole === 'Admin' || userRole === 'Moderateur') && (
 						<div className="dash_sidebar-menu">
 							<h3 className="dash_sidebar-title">Connecté</h3>
-							<span className="dash_sidebar-username">
-								<Face className="dash_sidebar-icons" />
-								{user}: {userRole}
-							</span>
+							<div className="dash_sidebar_user_wrapper">
+								<span className="dash_sidebar-username">
+									<Face className="dash_sidebar-icons" />
+									{user}: {userRole}
+								</span>
+								<img
+									className="user_profile_picture"
+									src={userPicture}
+									alt="utilisateur"
+								/>
+							</div>
 							<h3 className="dash_sidebar-title">Menu Rapide</h3>
 							<ul className="dash_sidebar-list">
 								<NavLink
@@ -128,13 +137,16 @@ function DashSidebar() {
 					{userRole !== 'Admin' && userRole !== 'Moderateur' && (
 						<div className="dash_sidebar-menu">
 							<h3 className="dash_sidebar-title">Connecté</h3>
-							<span className="dash_sidebar-username">
-								<EmojiEmotions
-									htmlColor="green"
-									className="dash_sidebar-icons"
+							<div className="dash_sidebar_user_wrapper">
+								<span className="dash_sidebar-username">
+									Bienvenue {user}
+								</span>
+								<img
+									className="user_profile_picture"
+									src={userPicture}
+									alt="utilisateur"
 								/>
-								Bienvenue {user}
-							</span>
+							</div>
 							<h3 className="dash_sidebar-title">Menu</h3>
 							<ul className="dash_sidebar-list">
 								<NavLink

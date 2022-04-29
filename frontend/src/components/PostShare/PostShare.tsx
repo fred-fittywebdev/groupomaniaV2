@@ -6,6 +6,39 @@ import './PostShare.css';
 import jwt_decode from 'jwt-decode';
 import UserType from '../../Types/UserType';
 
+interface IProps {
+	posts: {
+		id: number;
+		title: string;
+		content: string;
+		image: string;
+		like: number;
+		posted_at: Date;
+		is_reported: boolean;
+		comments: Comment[];
+		user: User | null;
+	}[];
+	deletPost: (id: number) => void;
+}
+interface Comment {
+	id: number;
+	content: string;
+	commented_at: Date;
+	updated_at: Date;
+}
+
+interface User {
+	id: number;
+	first_name: string;
+	last_name: string;
+	username: string;
+	email: string;
+	password: string;
+	is_valid: boolean;
+	warnings: number;
+	profile_picture: string;
+}
+
 function PostShare() {
 	const [content, setContent] = useState('');
 	const [redirect, setRedirect] = useState(false);

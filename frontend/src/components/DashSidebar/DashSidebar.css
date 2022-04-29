@@ -6,12 +6,21 @@
 	top: 160px;
 }
 
-.dash_sidebar-username {
+.dash_sidebar_user_wrapper {
+	display: flex;
+	align-items: center;
 	margin-bottom: 25px;
+}
+
+.dash_sidebar-username {
 	display: flex;
 	padding: 8px;
 	align-items: center;
 	color: var(--text-color);
+}
+
+.user_profile_picture {
+	width: 60px;
 }
 
 .dash_sidebar-wrapper {
