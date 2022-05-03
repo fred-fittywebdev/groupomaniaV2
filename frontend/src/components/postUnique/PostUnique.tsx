@@ -79,6 +79,9 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 	// state pour la fonction signalement du post
 	const [isReported, setIsReported] = useState(false);
 
+	//comment
+	const [content, setContent] = useState('');
+
 	const likeHandler = async (id: number) => {
 		if (!isLiked) {
 			await axios.put(`post/${id}/like`, {
@@ -127,6 +130,19 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 		}
 	};
 
+	const addComment = async (id: number) => {
+		await axios.post(`posts/${id}/comment`, {
+			headers: {
+				Authorization:
+					'Bearer ' + JSON.parse(localStorage.getItem('token') || ''),
+			},
+			content,
+		});
+		setContent(content);
+		console.log(content);
+		window.location.reload();
+	};
+
 	useEffect(() => {
 		const token = JSON.parse(localStorage.getItem('token') || '');
 		const decoded: any = jwt_decode(token);
@@ -164,18 +180,21 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 							theme="light"
 							interactive={true}
 							placement="right"
-							content={<span>Modifiez votre commentaire</span>}
+							content={<span>Modifiez votre post</span>}
 						>
 							<Edit htmlColor="green" onClick={toggleModal} />
 						</Tippy>
 					</div>
 				</div>
 				<div className="post_center">
-					<img
-						className="post_img"
-						src={p.image}
-						alt="couverture du post"
-					/>
+					{/* TODO: conditionner l'image au cas ou le post n'en contiendrait pas */}
+					{p.image && (
+						<img
+							className="post_img"
+							src={p.image}
+							alt="couverture du post"
+						/>
+					)}
 					<span className="post-text">{p.content}</span>
 				</div>
 				<div className="post_bottom">
@@ -227,15 +246,18 @@ const PostUnique = ({ post: p, deletPost }: IProps) => {
 					</div>
 				</div>
 				<hr className="post_hr" />
-				<div className="post_comment-new">
+				<form className="post_comment-new">
 					<input
-						// onChange={(e) => setContent(e.target.value)}
+						onChange={(e) => setContent(e.target.value)}
 						placeholder="Ajoutez votre commentaire.."
 						type="text"
 						className="post_new"
 					/>
-					<AddComment className="new-icon" />
-				</div>
+					<AddComment
+						onClick={(e) => addComment(p.id)}
+						className="new-icon"
+					/>
+				</form>
 			</div>
 		</div>
 	);

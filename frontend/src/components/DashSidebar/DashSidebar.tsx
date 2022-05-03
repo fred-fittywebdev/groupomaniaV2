@@ -160,7 +160,7 @@ function DashSidebar() {
 									</li>
 								</NavLink>
 
-								<NavLink activeClassName="active" to="">
+								<NavLink activeClassName="active" to="/profil">
 									<li className="dash_sidebar-item">
 										<Face className="dash_sidebar-icons" />
 										Profil
