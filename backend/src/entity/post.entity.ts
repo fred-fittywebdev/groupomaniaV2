@@ -31,7 +31,6 @@ export class Post extends BaseEntity {
 
 	@Column({
 		nullable: true,
-		default: 'https://source.unsplash.com/random',
 	})
 	image: string;
 
