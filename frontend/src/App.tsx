@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 // import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
+import Profil from './pages/Profil/Profil';
 import Register from './pages/Register/Register';
 
 function App() {
@@ -17,6 +18,9 @@ function App() {
 				<Switch>
 					<Route exact path="/home">
 						<Home />
+					</Route>
+					<Route exact path="/profil">
+						<Profil />
 					</Route>
 					<Route exact path="/">
 						<Login />

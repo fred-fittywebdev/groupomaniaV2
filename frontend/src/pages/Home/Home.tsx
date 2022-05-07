@@ -5,6 +5,7 @@ import DashSidebar from '../../components/DashSidebar/DashSidebar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Homepage from '../../components/Homepage/Homepage';
 import Profil from '../Profil/Profil';
+import ProfilUser from '../../components/Profiluser/ProfilUser';
 
 const Home = () => {
 	return (
@@ -17,7 +18,7 @@ const Home = () => {
 						<Homepage />
 					</Route>
 					<Route path="/profil">
-						<Profil />
+						<ProfilUser />
 					</Route>
 				</Switch>
 				{/* <Feed />
