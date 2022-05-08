@@ -2,23 +2,24 @@
 	flex: 4;
 }
 
-.user-list-btn {
-	background: #fff;
-	padding: 4px 8px;
-	border-radius: 4px;
-	color: #5db900;
-	cursor: pointer;
-	font-size: 1em;
-	border: 1px solid #5db900;
-	margin-right: 20px;
+table {
+	width: 80%;
+	margin: 0 auto;
+	text-align: right;
+	border-collapse: collapse;
+	border: 0.3px solid #ffd7d7;
 }
 
-.user-list-btn:hover {
-	color: #fff;
-	background-color: #5db900;
+tr,
+td {
+	padding: 8px;
 }
 
-.user-list-delete {
-	color: var(--primary-color);
-	cursor: pointer;
+th {
+	padding: 8px;
+	background-color: #ffd7d7;
+}
+
+tr {
+	border-bottom: 0.3px solid #ffd7d7;
 }

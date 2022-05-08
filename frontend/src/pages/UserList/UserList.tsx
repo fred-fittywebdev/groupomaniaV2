@@ -26,20 +26,55 @@ function UserList() {
 
 	return (
 		<div className="user_list">
-			{usersList.map((usersList: User) => {
-				return (
-					<div key={usersList.id}>
-						<li>{usersList.id}</li>
-						<li>{usersList.first_name}</li>
-						<li>{usersList.last_name}</li>
-						<li>{usersList.username}</li>
-						<li>{usersList.email}</li>
-						<li>{usersList.is_valid.toString()}</li>
-						<li>{usersList.warnings}</li>
-						<li>{usersList.profile_picture}</li>
-					</div>
-				);
-			})}
+			<table>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Photo</th>
+						<th>Prénom</th>
+						<th>Nom</th>
+						<th>Pseudo</th>
+						<th>Email</th>
+						<th>Valide</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{usersList.map((usersList: User) => {
+						return (
+							<tr key={usersList.id}>
+								<td>{usersList.id}</td>
+								<td>
+									<img
+										src={usersList.profile_picture}
+										width="50"
+									/>
+								</td>
+								<td>{usersList.first_name}</td>
+								<td>{usersList.last_name}</td>
+								<td>{usersList.username}</td>
+								<td>{usersList.email}</td>
+								<td
+									style={
+										!usersList.is_valid
+											? {
+													backgroundColor: '#fd2d01',
+													color: 'white',
+													textAlign: 'center',
+											  }
+											: { backgroundColor: 'white' }
+									}
+								>
+									{usersList.is_valid.toString()}
+								</td>
+								<td>
+									<button className="btn">Supprimer</button>
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
 		</div>
 	);
 }
